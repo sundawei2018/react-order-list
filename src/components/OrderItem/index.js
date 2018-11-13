@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import './style.css';
 
 class index extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editing: false,
+            starts : 0
+        }
+    }
+
     render() {
         const { shop, product, price, picture, ifCommented } = this.props.data;
         return (
@@ -27,6 +35,35 @@ class index extends Component {
                         </div>
                     </div>
                 </div>
+                {this.state.editing ? this.renderEditArea() : null }
+            </div>
+        );
+    }
+
+    renderEditArea() {
+        return (
+            <div className="orderItem__commentContainer">
+                <textarea className='orderItem__comment'/>
+                {this.renderStars()}
+                <button className='orderItem__btn orderItem__btn--red'>Submit</button>
+                <button className='orderItem__btn orderItem__btn--grey'>Cancel</button>
+            </div>
+        )
+    }
+
+    renderStars() {
+        const {stars } = this.state;
+        return (
+            <div>
+                {
+                    [1,2,3,4,5].map((item, index) => {
+                        const light = stars >= item ? "orderItem_star--light":"";
+                        return (
+                            <span key={index}>★</span>
+                        )
+                    })
+                }
+                
             </div>
         )
     }
