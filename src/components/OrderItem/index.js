@@ -6,8 +6,9 @@ class index extends Component {
         super(props);
         this.state = {
             editing: false,
-            starts : 0
-        }
+            starts : props.data.stars || 0,
+            comment: props.data.comment || ""
+        };
     }
 
     render() {
@@ -26,9 +27,9 @@ class index extends Component {
                             <div>
                                 {
                                     ifCommented ? (
-                                        <button className="orderItem__btn">Show Comments</button>
+                                        <button className="orderItem__btn--grey">Show Comments</button>
                                     ) : (
-                                        <button className="orderItem__btn">No Comments</button>
+                                        <button className="orderItem__btn-red" onClick={this.handleOpenEditArea}>Write Comments</button>
                                     )
                                 }
                             </div>
@@ -43,10 +44,14 @@ class index extends Component {
     renderEditArea() {
         return (
             <div className="orderItem__commentContainer">
-                <textarea className='orderItem__comment'/>
+                <textarea onChange={this.handleCommentChange} className='orderItem__comment' value={this.state.comment}/>
                 {this.renderStars()}
-                <button className='orderItem__btn orderItem__btn--red'>Submit</button>
-                <button className='orderItem__btn orderItem__btn--grey'>Cancel</button>
+                <button className='orderItem__btn orderItem__btn--red'
+                        onClick={this.handleSubmitComment
+                }>Submit</button>
+                <button className='orderItem__btn orderItem__btn--grey'
+                        onClick={this.handleCancelComment}
+                >Cancel</button>
             </div>
         )
     }
@@ -57,16 +62,53 @@ class index extends Component {
             <div>
                 {
                     [1,2,3,4,5].map((item, index) => {
-                        const light = stars >= item ? "orderItem_star--light":"";
+                        const lightClass = stars >= item ? "orderItem_star--light":"";
                         return (
-                            <span key={index}>★</span>
+                            <span key={index}
+                                  className={"orderItem_stars " + lightClass} 
+                                  onClick={this.handleClickStars.bind(this, stars)}>★</span>
                         )
                     })
                 }
-                
             </div>
         )
     }
+
+    handleOpenEditArea = () => {
+        this.setState({
+            editing: true
+        });
+    }
+
+    handleCommentChange = (e) => {
+        this.setState({
+            comment: e.target.value
+        });
+    }
+
+    handleClickStars = (stars) => {
+        this.setState({
+            stars: stars
+        });
+    }
+
+    handleCancelComment = () => {
+        this.setState({
+            editing: false,
+            starts : this.props.data.stars || 0,
+            comment: this.props.data.comment || ""
+        });
+    }
+
+    handleSubmitComment = () => {
+        const { id } = this.props.data;
+        const { comment, stars } = this.state;
+        this.setState({
+            editing: false
+        });
+        this.props.onSubmit(id, comment, stars);
+    }
+
 }
 
 export default index;
