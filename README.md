@@ -1,4 +1,4 @@
-![Alt text](./public/img/img1.jpg?raw=true "Title")
+![Alt text](./public/img/img1.jpg)
 
 ## Available Scripts
 
