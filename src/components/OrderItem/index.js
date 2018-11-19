@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './style.css';
 
-class index extends Component {
+class OrderItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
             editing: false,
-            starts : props.data.stars || 0,
+            stars : props.data.stars || 0,
             comment: props.data.comment || ""
         };
     }
@@ -16,20 +16,20 @@ class index extends Component {
         return (
             <div className="orderItem">
                 <div className="orderItem_left">
-                    <div className="orderItem__picContainer">
-                        <img className="orderItem__pic" src={picture} alt="" />
+                    <div className="orderItem_picContainer">
+                        <img className="orderItem_pic" src={picture} alt="product picture" />
                     </div>
                     <div className="orderItem_content">
-                        <div className="orderItem__product">{product}</div>
-                        <div className="orderItem__stop">{shop}</div>
-                        <div className="orderItem__detail">
-                            <div className="orderItem__price">{price}</div>
+                        <div className="orderItem_product">{product}</div>
+                        <div className="orderItem_stop">{shop}</div>
+                        <div className="orderItem_detail">
+                            <div className="orderItem_price">{price}</div>
                             <div>
                                 {
                                     ifCommented ? (
-                                        <button className="orderItem__btn--grey">Show Comments</button>
-                                    ) : (
-                                        <button className="orderItem__btn-red" onClick={this.handleOpenEditArea}>Write Comments</button>
+                                        <button className="orderItem_btn orderItem_btn--gray" onClick={this.handleOpenEditArea.bind(this)}>Commented</button>
+                                    ) : (                 
+                                        <button className="orderItem_btn orderItem_btn--red" onClick={this.handleOpenEditArea.bind(this)}>Write Comments</button>
                                     )
                                 }
                             </div>
@@ -43,14 +43,14 @@ class index extends Component {
 
     renderEditArea() {
         return (
-            <div className="orderItem__commentContainer">
-                <textarea onChange={this.handleCommentChange} className='orderItem__comment' value={this.state.comment}/>
+            <div className="orderItem_commentContainer">
+                <textarea onChange={this.handleCommentChange} className='orderItem_comment' value={this.state.comment}/>
                 {this.renderStars()}
-                <button className='orderItem__btn orderItem__btn--red'
-                        onClick={this.handleSubmitComment
+                <button className='orderItem_btn orderItem_btn--red'
+                        onClick={this.handleSubmitComment.bind(this)
                 }>Submit</button>
-                <button className='orderItem__btn orderItem__btn--grey'
-                        onClick={this.handleCancelComment}
+                <button className='orderItem_btn orderItem_btn--grey'
+                        onClick={this.handleCancelComment.bind(this)}
                 >Cancel</button>
             </div>
         )
@@ -62,11 +62,11 @@ class index extends Component {
             <div>
                 {
                     [1,2,3,4,5].map((item, index) => {
-                        const lightClass = stars >= item ? "orderItem_star--light":"";
+                        const lightClass = stars >= item ? "orderItem_star--light":"orderItem_star";
                         return (
                             <span key={index}
-                                  className={"orderItem_stars " + lightClass} 
-                                  onClick={this.handleClickStars.bind(this, stars)}>★</span>
+                                  className={lightClass} 
+                                  onClick={this.handleClickStars.bind(this, item)}>★</span>
                         )
                     })
                 }
@@ -95,7 +95,7 @@ class index extends Component {
     handleCancelComment = () => {
         this.setState({
             editing: false,
-            starts : this.props.data.stars || 0,
+            stars : this.props.data.stars || 0,
             comment: this.props.data.comment || ""
         });
     }
@@ -111,4 +111,4 @@ class index extends Component {
 
 }
 
-export default index;
+export default OrderItem;

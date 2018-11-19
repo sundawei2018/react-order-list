@@ -37,7 +37,7 @@ class OrderList extends Component {
     }
 
     handleSubmit = (id, comment, stars) => {
-        const newData = this.state.data.map(item => {
+        const newData = this.state.data.map((item, index) => {
             return item.id === id ? 
             {
                 ...item, comment, stars, ifCommented: true
