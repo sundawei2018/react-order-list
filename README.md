@@ -1,4 +1,4 @@
-![Alt text](./public/img/img1.jpg)
+![](/public/img/img1.png)
 
 ## Available Scripts
 
